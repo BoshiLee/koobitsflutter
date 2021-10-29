@@ -25,8 +25,12 @@ class TopicScreen extends StatelessWidget {
             child: QuestionContent(
               isLoading: state is TopicLoading,
               question: context.watch<TopicCubit>().currentQuestion,
-              onAnswerChanged: (text) {},
+              onAnswerChanged: (text) =>
+                  context.read<TopicCubit>().currentAnswerValue = text,
             ),
+            enableNext: state is! TopicLoading,
+            nextStepTitle: context.watch<TopicCubit>().nextStepTitle,
+            onNextTap: context.read<TopicCubit>().submit,
           );
         },
       ),

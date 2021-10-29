@@ -18,3 +18,17 @@ class TopicLoaded extends TopicState {
   @override
   List<Object> get props => [DateTime.now().toIso8601String()];
 }
+
+class NextTopic extends TopicState {
+  @override
+  List<Object> get props => [DateTime.now().toIso8601String()];
+}
+
+class TopicErrorOccurred extends TopicState {
+  final String errorMessage;
+
+  const TopicErrorOccurred({required this.errorMessage});
+
+  @override
+  List<Object> get props => [DateTime.now().toIso8601String()];
+}

@@ -53,7 +53,10 @@ class ScrollableContentStep extends StatelessWidget {
                     enable: enableNext,
                     title: Text(
                       nextStepTitle ?? '',
-                      style: const TextStyle(fontSize: 16, color: Colors.white),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
                     ),
                     onPressed: () => onNextTap?.call(),
                   ),
