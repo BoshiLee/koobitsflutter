@@ -31,7 +31,7 @@ class QuestionContent extends StatelessWidget {
               Expanded(child: Container()),
               Text(
                 isLoading ? '讀取題目中' : '第 ${(question?.id ?? 0) + 1} 題',
-                style: kBodyRegular.apply(color: Colors.black),
+                style: kBody.apply(color: Colors.black),
               ),
               const SizedBox(width: 4),
               Expanded(
@@ -53,7 +53,7 @@ class QuestionContent extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 2),
                 child: Text(
                   isLoading ? '題目讀取中' : question?.question ?? '題目取得失敗',
-                  style: kBodyRegular.apply(color: Colors.black),
+                  style: kBody.apply(color: Colors.black),
                 ),
               ),
               Expanded(
