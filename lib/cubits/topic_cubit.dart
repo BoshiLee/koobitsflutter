@@ -19,6 +19,14 @@ class TopicCubit extends Cubit<TopicState> {
 
   int _currentIndex = 0;
 
+  bool get validate {
+    if (answers[_currentIndex] == null) {
+      return true;
+    } else {
+      return (currentAnswerValue != null && currentAnswerValue!.isNotEmpty);
+    }
+  }
+
   bool get isFinished =>
       questions.isNotEmpty &&
       (answers.length == questions.length) &&
@@ -33,7 +41,7 @@ class TopicCubit extends Cubit<TopicState> {
 
   Answer? get currentAnswer {
     if (answers[_currentIndex] == null) {
-      answers[_currentIndex] = Answer(_currentIndex);
+      return null;
     }
     return answers[_currentIndex];
   }
@@ -44,9 +52,14 @@ class TopicCubit extends Cubit<TopicState> {
 
   set currentAnswerValue(String? answer) {
     if (answer == null) return;
-    if (answer.isEmpty) return;
+    if (answer.isEmpty) {
+      answers[_currentIndex] = Answer(_currentIndex);
+      emit(TopicLoaded());
+      return;
+    }
     final value = int.parse(answer);
     answers[_currentIndex] = Answer(_currentIndex, answer: value);
+    emit(TopicLoaded());
   }
 
   Future _getQuestions() async {
@@ -61,6 +74,10 @@ class TopicCubit extends Cubit<TopicState> {
 
   Future submit() async {
     if (currentAnswer == null) {
+      emit(const TopicErrorOccurred(errorMessage: '請回答此題'));
+      return;
+    }
+    if (currentAnswer?.answer == null) {
       emit(const TopicErrorOccurred(errorMessage: '請回答此題'));
       return;
     }

@@ -19,22 +19,32 @@ class TopicScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: BlocBuilder<TopicCubit, TopicState>(
-        builder: (context, state) {
-          return ScrollableContentStep(
-            keepState: false,
-            child: QuestionContent(
-              initValue: context.read<TopicCubit>().currentAnswerValue,
-              isLoading: state is TopicLoading,
-              question: context.watch<TopicCubit>().currentQuestion,
-              onAnswerChanged: (text) =>
-                  context.read<TopicCubit>().currentAnswerValue = text,
-            ),
-            enableNext: state is! TopicLoading,
-            nextStepTitle: context.watch<TopicCubit>().nextStepTitle,
-            onNextTap: context.read<TopicCubit>().submit,
-          );
+      body: BlocListener<TopicCubit, TopicState>(
+        listener: (context, state) {
+          if (state is TopicErrorOccurred) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.errorMessage),
+            ));
+          }
         },
+        child: BlocBuilder<TopicCubit, TopicState>(
+          builder: (context, state) {
+            return ScrollableContentStep(
+              keepState: false,
+              child: QuestionContent(
+                validate: context.watch<TopicCubit>().validate,
+                initValue: context.read<TopicCubit>().currentAnswerValue,
+                isLoading: state is TopicLoading,
+                question: context.watch<TopicCubit>().currentQuestion,
+                onAnswerChanged: (text) =>
+                    context.read<TopicCubit>().currentAnswerValue = text,
+              ),
+              enableNext: state is! TopicLoading,
+              nextStepTitle: context.watch<TopicCubit>().nextStepTitle,
+              onNextTap: context.read<TopicCubit>().submit,
+            );
+          },
+        ),
       ),
     );
   }

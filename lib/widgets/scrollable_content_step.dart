@@ -24,15 +24,9 @@ class ScrollableContentStep extends StatelessWidget {
     this.keepState = true,
   }) : super(key: key);
 
-  _hideKeyboard(BuildContext context) {
-    FocusScope.of(context).requestFocus(FocusNode());
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _hideKeyboard(context),
-      onVerticalDragDown: (_) => _hideKeyboard(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
