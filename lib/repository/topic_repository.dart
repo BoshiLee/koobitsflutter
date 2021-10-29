@@ -23,19 +23,20 @@ class TopicRepository {
     return questions;
   }
 
-  Future<List<Answer>> postAnswers(
-      {required List<Question> questions,
-      required List<Answer> answers}) async {
+  Future<List<Answer>> postAnswers({
+    required List<Question> questions,
+    required List<Answer> answers,
+  }) async {
     final answerMap = answers.asMap();
-    List<Answer> wrongAns = [];
+    List<Answer> correctAns = [];
     for (Question question in questions) {
       if (!answerMap.containsKey(question.id)) {
         throw BadDataException('第 ${question.id} 尚未回答');
       }
       if (answerMap[question.id]?.answer != question.answer?.answer) {
-        wrongAns.add(question.answer ?? Answer(question.id));
+        correctAns.add(question.answer ?? Answer(question.id));
       }
     }
-    return wrongAns;
+    return correctAns;
   }
 }

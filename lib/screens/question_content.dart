@@ -5,16 +5,20 @@ import 'package:koobitsflutter/styles/text_styles.dart';
 
 class QuestionContent extends StatelessWidget {
   final String? initValue;
+  final bool enable;
   final bool isLoading;
   final Question? question;
   final bool validate;
+  final String? errorMessage;
   final ValueChanged<String> onAnswerChanged;
 
   const QuestionContent({
     Key? key,
+    this.enable = true,
     this.isLoading = false,
     this.validate = true,
     this.initValue,
+    this.errorMessage,
     required this.question,
     required this.onAnswerChanged,
   }) : super(key: key);
@@ -60,14 +64,14 @@ class QuestionContent extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextField(
-                    enabled: !isLoading,
+                    enabled: !isLoading && enable,
                     controller: TextEditingController(text: initValue),
                     decoration: InputDecoration(
                       isDense: true,
                       contentPadding: const EdgeInsets.only(bottom: 4),
                       hintText: '請輸入數字',
                       hintStyle: kSmall1,
-                      errorText: !validate ? '此欄位不得為空' : null,
+                      errorText: !validate ? errorMessage ?? '此欄位不得為空' : null,
                     ),
                     onSubmitted: onAnswerChanged,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],

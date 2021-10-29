@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:koobitsflutter/cubits/topic_cubit.dart';
+import 'package:koobitsflutter/cubits/topic/topic_cubit.dart';
 
 import 'screens/topic_screen.dart';
 
