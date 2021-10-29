@@ -66,6 +66,7 @@ class QuestionContent extends StatelessWidget {
                       isDense: true,
                       contentPadding: const EdgeInsets.only(bottom: 4),
                       hintText: '請輸入數字',
+                      hintStyle: kSmall1,
                       errorText: !validate ? '此欄位不得為空' : null,
                     ),
                     onSubmitted: onAnswerChanged,
