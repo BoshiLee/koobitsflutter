@@ -22,7 +22,9 @@ class TopicScreen extends StatelessWidget {
       body: BlocBuilder<TopicCubit, TopicState>(
         builder: (context, state) {
           return ScrollableContentStep(
+            keepState: false,
             child: QuestionContent(
+              initValue: context.read<TopicCubit>().currentAnswerValue,
               isLoading: state is TopicLoading,
               question: context.watch<TopicCubit>().currentQuestion,
               onAnswerChanged: (text) =>

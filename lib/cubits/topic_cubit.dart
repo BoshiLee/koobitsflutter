@@ -11,7 +11,7 @@ part 'topic_state.dart';
 class TopicCubit extends Cubit<TopicState> {
   final TopicRepository _repository = TopicRepository();
   List<Question> questions = [];
-  List<Answer> answers = [];
+  Map<int, Answer?> answers = {};
 
   TopicCubit() : super(TopicInitial()) {
     _getQuestions();
@@ -32,7 +32,9 @@ class TopicCubit extends Cubit<TopicState> {
   }
 
   Answer? get currentAnswer {
-    if (answers.isEmpty) return null;
+    if (answers[_currentIndex] == null) {
+      answers[_currentIndex] = Answer(_currentIndex);
+    }
     return answers[_currentIndex];
   }
 
@@ -44,7 +46,7 @@ class TopicCubit extends Cubit<TopicState> {
     if (answer == null) return;
     if (answer.isEmpty) return;
     final value = int.parse(answer);
-    _insetNewAnswer(Answer(_currentIndex, answer: value));
+    answers[_currentIndex] = Answer(_currentIndex, answer: value);
   }
 
   Future _getQuestions() async {
@@ -54,15 +56,6 @@ class TopicCubit extends Cubit<TopicState> {
       emit(TopicLoaded());
     } catch (e) {
       debugPrint(e.toString());
-    }
-  }
-
-  _insetNewAnswer(Answer answer) {
-    Map ansMap = answers.asMap();
-    if (ansMap.containsKey(answer.id)) {
-      answers[answer.id!] = answer;
-    } else {
-      answers.add(answer);
     }
   }
 
@@ -78,9 +71,13 @@ class TopicCubit extends Cubit<TopicState> {
     }
     try {
       emit(TopicLoading());
+      List<Answer> ans = [];
+      for (Answer? element in answers.values) {
+        if (element != null) ans.add(element);
+      }
       await _repository.postAnswers(
         questions: questions,
-        answers: answers,
+        answers: ans,
       );
       emit(TopicLoaded());
     } catch (e) {

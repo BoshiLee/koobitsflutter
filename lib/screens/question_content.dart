@@ -95,6 +95,7 @@ class _QuestionContentState extends State<QuestionContent> {
                   child: TextField(
                     enabled: !widget.isLoading,
                     controller: _controller,
+                    autofocus: true,
                     decoration: InputDecoration(
                       isDense: true,
                       contentPadding: const EdgeInsets.only(bottom: 4),
