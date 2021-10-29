@@ -12,15 +12,34 @@ class TopicCubit extends Cubit<TopicState> {
   List<Question> questions = [];
   List<Answer> answers = [];
 
-  TopicCubit() : super(TopicInitial());
+  TopicCubit() : super(TopicInitial()) {
+    _getQuestions();
+  }
 
-  Future getQuestions() async {
+  int currentIndex = 0;
+
+  Question? get currentQuestion {
+    if (questions.isEmpty) return null;
+    return questions[currentIndex];
+  }
+
+  Future _getQuestions() async {
     try {
       emit(TopicLoading());
       questions = await _repository.getQuestions();
       emit(TopicLoaded());
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+  Future submit(Answer answer) async {
+    Map ansMap = answers.asMap();
+    if (ansMap.containsKey(answer.id)) {
+      answers[answer.id!] = answer;
+    } else {
+      answers.add(answer);
+      currentIndex += 1;
     }
   }
 }
