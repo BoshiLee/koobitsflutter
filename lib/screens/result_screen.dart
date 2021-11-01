@@ -5,6 +5,8 @@ import 'package:koobitsflutter/screens/question_content.dart';
 import 'package:koobitsflutter/styles/text_styles.dart';
 
 class ResultScreen extends StatelessWidget {
+  static String id = 'ResultScreen';
+
   const ResultScreen({Key? key}) : super(key: key);
 
   @override
@@ -35,24 +37,48 @@ class ResultScreen extends StatelessWidget {
           ],
         );
       }
-      return ListView.separated(
-        itemBuilder: (context, index) {
-          final question = context.watch<TopicResultCubit>().correctMap[index];
-          return QuestionContent(
-            question: question,
-            enable: false,
-            validate: false,
-            errorMessage: '正確答案為 ${question?.answer?.answerString}',
-            initValue:
-                context.watch<TopicResultCubit>().wrongMap[index]?.answerString,
-            onAnswerChanged: (_) {},
-          );
-        },
-        separatorBuilder: (context, index) => Container(
-          height: 1,
-          color: Colors.grey[800],
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            '結果',
+            style: kBody,
+          ),
         ),
-        itemCount: context.watch<TopicResultCubit>().correctMap.length,
+        body: ListView.separated(
+          itemBuilder: (context, index) {
+            final question =
+                context.watch<TopicResultCubit>().questionMap[index];
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  QuestionContent(
+                    question: question,
+                    initValue: context
+                        .watch<TopicResultCubit>()
+                        .questionMap[index]
+                        ?.answer
+                        ?.answerString,
+                    onAnswerChanged: (_) {},
+                  ),
+                  Text(
+                    '你的答案為 ${question?.answer?.answerString}',
+                    style: TextStyle(color: Colors.red[300]),
+                  ),
+                ],
+              ),
+            );
+          },
+          separatorBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Container(
+              height: 1,
+              color: Colors.grey[800],
+            ),
+          ),
+          itemCount: context.watch<TopicResultCubit>().questionMap.length,
+        ),
       );
     });
   }

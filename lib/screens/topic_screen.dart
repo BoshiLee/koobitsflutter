@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:koobitsflutter/cubits/topic/topic_cubit.dart';
 import 'package:koobitsflutter/screens/question_content.dart';
+import 'package:koobitsflutter/widgets/route_manager.dart';
 import 'package:koobitsflutter/widgets/scrollable_content_step.dart';
 
 class TopicScreen extends StatelessWidget {
@@ -25,6 +26,12 @@ class TopicScreen extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.errorMessage),
             ));
+          }
+          if (state is PresentResult) {
+            RouteManager.navigateToResultScreen(
+              context,
+              result: state.result,
+            );
           }
         },
         child: BlocBuilder<TopicCubit, TopicState>(

@@ -1,6 +1,7 @@
 import 'package:koobitsflutter/exception/app_exception.dart';
 import 'package:koobitsflutter/model/answer.dart';
 import 'package:koobitsflutter/model/question.dart';
+import 'package:koobitsflutter/model/topic_result.dart';
 
 const int _questionCount = 3;
 
@@ -23,20 +24,22 @@ class TopicRepository {
     return questions;
   }
 
-  Future<List<Answer>> postAnswers({
+  Future<TopicResult> postAnswers({
     required List<Question> questions,
     required List<Answer> answers,
   }) async {
     final answerMap = answers.asMap();
-    List<Answer> correctAns = [];
+    List<Question> resultQuestions = [];
+    List<Answer> wrongAnswers = [];
     for (Question question in questions) {
       if (!answerMap.containsKey(question.id)) {
         throw BadDataException('第 ${question.id} 尚未回答');
       }
       if (answerMap[question.id]?.answer != question.answer?.answer) {
-        correctAns.add(question.answer ?? Answer(question.id));
+        resultQuestions.add(question);
+        wrongAnswers.add(answerMap[question.id]!);
       }
     }
-    return correctAns;
+    return TopicResult(questions: resultQuestions, answer: wrongAnswers);
   }
 }

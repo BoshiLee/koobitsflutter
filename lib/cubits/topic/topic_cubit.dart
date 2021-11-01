@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:koobitsflutter/exception/app_exception.dart';
 import 'package:koobitsflutter/model/answer.dart';
 import 'package:koobitsflutter/model/question.dart';
+import 'package:koobitsflutter/model/topic_result.dart';
 import 'package:koobitsflutter/repository/topic_repository.dart';
 
 part 'topic_state.dart';
@@ -92,11 +93,11 @@ class TopicCubit extends Cubit<TopicState> {
       for (Answer? element in answers.values) {
         if (element != null) ans.add(element);
       }
-      await _repository.postAnswers(
+      TopicResult topicResult = await _repository.postAnswers(
         questions: questions,
         answers: ans,
       );
-      emit(TopicLoaded());
+      emit(PresentResult(topicResult));
     } catch (e) {
       if (e is BadDataException) {
         emit(TopicErrorOccurred(errorMessage: e.toString()));
