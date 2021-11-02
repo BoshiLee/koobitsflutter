@@ -3,7 +3,7 @@ import 'package:koobitsflutter/model/answer.dart';
 import 'package:koobitsflutter/model/question.dart';
 import 'package:koobitsflutter/model/topic_result.dart';
 
-const int _questionCount = 3;
+const int _questionCount = 10;
 
 class TopicRepository {
   Future<List<Question>> getQuestions() async {

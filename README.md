@@ -1,16 +1,12 @@
 # koobitsflutter
 
-A new Flutter project.
+koobits flutter 工程師面試專案
 
-## Getting Started
+## 架構
 
-This project is a starting point for a Flutter application.
+- 使用 [Bloc](https://pub.dev/packages/flutter_bloc) 管理狀態變化，改變狀態時，畫面也會跟著響應。
+- Mock API 規劃在 repository **GET** Question, **POST** Answer
+## 畫面
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Topic Screen 為題目畫面，輸入好題目後，按下一題便會進入，結束後上傳答案，進入結果。
+- Result Screen 顯示答題結果，全對或有未填答案會顯示相關訊息，填答完整，但有錯誤題目則會顯示錯誤的題目，以及正確答案。
